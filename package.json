@@ -1,0 +1,26 @@
+{
+  "name": "ssync",
+  "version": "1.0.0",
+  "description": "Sync NetSuite environment with a local repository.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christopherwxyz/ssync.git"
+  },
+  "keywords": [
+    "netsuite",
+    "suitecloud"
+  ],
+  "author": "christopherwxyz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/christopherwxyz/ssync/issues"
+  },
+  "homepage": "https://github.com/christopherwxyz/ssync#readme",
+  "devDependencies": {
+    "typescript": "^4.8.4"
+  }
+}

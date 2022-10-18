@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "ESNext",
+        "outDir": "dist",
+        "lib": [
+            "dom",
+            "es6",
+            "es2016.array.include",
+            "es2017.object"
+        ],
+        "sourceMap": true,
+        "rootDir": "src"
+    },
+    "exclude": [
+        "node_modules",
+    ]
+}
