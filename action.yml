@@ -1,6 +1,6 @@
 # action.yml
 name: 'ssync'
-description: 'Sync NetSuite environment with a local repository.'
+description: 'Sync a NetSuite environment with a local repository.'
 inputs:
   environment:  # id of input
     description: 'Environment to be synchronized'
