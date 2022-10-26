@@ -25,6 +25,6 @@ const saveToken = () => {
 export const handler = () => {
   console.log("Inside lambda handler");
   saveToken();
-  // shell.exec("suitecloud --help");
+  shell.exec("suitecloud file:list --folder /SuiteScripts");
   return {};
 };
