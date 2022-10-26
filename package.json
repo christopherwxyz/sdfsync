@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/christopherwxyz/ssync#readme",
   "devDependencies": {
+    "@types/shelljs": "^0.8.11",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^8.5.0",
@@ -34,5 +35,8 @@
     "eslint-plugin-promise": "^6.0.0",
     "prettier": "^2.7.1",
     "typescript": "*"
+  },
+  "dependencies": {
+    "shelljs": "^0.8.5"
   }
 }
