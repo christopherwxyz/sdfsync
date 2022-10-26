@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/christopherwxyz/ssync#readme",
   "devDependencies": {
+    "@types/node": "^18.11.6",
     "@types/shelljs": "^0.8.11",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "eslint": "^8.0.1",

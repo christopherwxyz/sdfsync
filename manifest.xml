@@ -1,0 +1,8 @@
+<manifest projecttype="ACCOUNTCUSTOMIZATION">
+  <projectname>Lambda-Customization</projectname>
+  <frameworkversion>1.0</frameworkversion>
+  <dependencies>
+    <features></features>
+    <objects></objects>
+  </dependencies>
+</manifest>
