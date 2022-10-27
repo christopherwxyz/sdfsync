@@ -1,6 +1,6 @@
 import * as shell from "shelljs";
 import * as fs from "fs/promises";
-import { env } from "process";
+import env from "@/helpers/env";
 
 /*
 Assumes an ed25519 private key delimited by raw \n newlines

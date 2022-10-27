@@ -5,9 +5,8 @@
   "main": "dist/app.js",
   "scripts": {
     "test": "test",
-    "lint": "eslint . --ext .ts",
-    "build": "tsc",
-    "build:watch": "tsc -w",
+    "lint": "eslint --max-warnings 0 --ext ts,tsx,json src",
+    "build": "tsc --skipLibCheck",
     "start": "tsc && node dist/app.js"
   },
   "repository": {
@@ -38,9 +37,15 @@
     "module-alias": "^2.2.2",
     "prettier": "^2.7.1",
     "source-map-support": "^0.5.21",
+    "tsc-watch": "^5.0.3",
     "typescript": "*"
   },
   "dependencies": {
+    "dotenv": "^16.0.3",
+    "envalid": "^7.3.1",
     "shelljs": "^0.8.5"
+  },
+  "_moduleAliases": {
+    "@": "dist"
   }
 }
