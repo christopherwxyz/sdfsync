@@ -12,5 +12,6 @@ export default cleanEnv(process.env, {
   TOKENID: str(),
   TOKENSECRET: str(),
   URL: str(),
+  NSENV: str(),
   DEPLOYKEY: str(),
 });

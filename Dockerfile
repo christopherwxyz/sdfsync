@@ -2,6 +2,8 @@ FROM node:16.18.0-alpine3.16
 
 RUN apk --no-cache update && apk --no-cache add sudo
 RUN apk add --no-cache bash
+RUN apk add --no-cache git
+RUN apk add --no-cache openssh
 RUN apk add --no-cache openjdk17-jdk
 
 USER root
@@ -11,6 +13,4 @@ COPY . .
 
 RUN npm ci && npm run build
 
-ENTRYPOINT ["node", "dist/app.js"]
-
-CMD ["-h"]
+CMD ["node", "dist/app.js"]

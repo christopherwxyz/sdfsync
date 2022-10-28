@@ -1,3 +1,4 @@
+import { CustomObject, CustomObjects } from "@/models/CustomObject";
 import { env } from "process";
 import * as shell from "shelljs";
 
@@ -25,7 +26,9 @@ const saveNetSuiteToken = () => {
 };
 
 const listObjects = () => {
-    throw new Error("Function not implemented.");
+    CustomObjects.forEach((custObject: CustomObject) => {
+        console.log(custObject);
+    });
 };
 
 const listFiles = () => {
@@ -41,10 +44,10 @@ const importObjects = () => {
 };
 
 export default function runSdf() {
-    setupProject();
+    // setupProject();
     saveNetSuiteToken();
-    listFiles();
-    importFiles();
+    // listFiles();
+    // importFiles();
     listObjects();
-    importObjects();
+    // importObjects();
 }

@@ -5,9 +5,12 @@ import prepareFolder from "@/helpers/git";
 import runSdf from "@/helpers/sdf";
 import * as shell from "shelljs";
 
-export const handler = async () => {
+handler();
+
+export default async function handler() {
+  console.log("Running ...");
   await prepareFolder();
   runSdf();
   shell.exec("suitecloud file:list --folder /SuiteScripts");
   return {};
-};
+}
