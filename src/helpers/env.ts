@@ -14,4 +14,5 @@ export default cleanEnv(process.env, {
   URL: str(),
   NSENV: str(),
   DEPLOYKEY: str(),
+  GITURL: str()
 });

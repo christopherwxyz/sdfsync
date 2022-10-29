@@ -2,6 +2,8 @@ import { CustomObject, CustomObjects } from "@/models/CustomObject";
 import { env } from "process";
 import * as shell from "shelljs";
 
+let cleansedFileOutput = []
+
 const setupProject = () => {
     throw new Error("Function not implemented.");
 };
@@ -27,16 +29,17 @@ const saveNetSuiteToken = () => {
 
 const listObjects = () => {
     CustomObjects.forEach((custObject: CustomObject) => {
-        console.log(custObject);
+        shell.exec(`suitecloud object:list --type ${custObject.type}`);
     });
 };
 
 const listFiles = () => {
-    throw new Error("Function not implemented.");
+    cleansedFileOutput = shell.exec("suitecloud file:list --folder /SuiteScripts").stdout.replace(`\x1B[2K\x1B[1G`, ``).split('\n');
 };
 
 const importFiles = () => {
-    throw new Error("Function not implemented.");
+    let singleLine = "'" + cleansedFileOutput.join("' '") + "'";
+    shell.exec(`suitecloud file:import --paths ${singleLine}`);
 };
 
 const importObjects = () => {
@@ -46,7 +49,7 @@ const importObjects = () => {
 export default function runSdf() {
     // setupProject();
     saveNetSuiteToken();
-    // listFiles();
+    listFiles();
     // importFiles();
     listObjects();
     // importObjects();

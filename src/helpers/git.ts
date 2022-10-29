@@ -42,7 +42,7 @@ function changeDir() {
   console.log('Starting directory: ' + process.cwd());
   try {
     process.chdir(`/tmp/ns/packages/${env.NSENV}`);
-    console.log('New directory: ' + process.cwd());
+    console.log('Package directory: ' + process.cwd());
   }
   catch (err) {
     console.log('chdir: ' + err);

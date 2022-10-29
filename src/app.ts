@@ -11,6 +11,6 @@ export default async function handler() {
   console.log("Running ...");
   await prepareFolder();
   runSdf();
-  shell.exec("suitecloud file:list --folder /SuiteScripts");
+  shell.exec(`git diff`);
   return {};
 }
