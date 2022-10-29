@@ -1,18 +1,27 @@
 {
     "compilerOptions": {
         "module": "commonjs",
+        "moduleResolution": "node",
         "target": "ESNext",
         "outDir": "dist",
         "lib": [
             "dom",
             "es6",
             "es2016.array.include",
-            "es2017.object"
+            "es2017.object",
+            "es2021"
         ],
         "sourceMap": true,
-        "rootDir": "src"
+        "rootDir": "src",
+        "baseUrl": "src",
+        "paths": {
+            "@/*": ["*"]
+        },
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
     },
     "exclude": [
         "node_modules",
-    ]
+    ],
+    "include": ["src/**/*"]
 }

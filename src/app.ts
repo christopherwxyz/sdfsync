@@ -1,30 +1,16 @@
-import { env } from "process";
+import 'module-alias/register'
+import 'source-map-support/register'
+
+import prepareFolder from "@/helpers/git";
+import runSdf from "@/helpers/sdf";
 import * as shell from "shelljs";
 
-console.log("Hello world");
+handler();
 
-const saveToken = () => {
-  const commandList = [
-    "suitecloud",
-    "account:savetoken",
-    "--account",
-    env.ACCOUNT,
-    "--authid",
-    env.AUTHID,
-    "--tokenid",
-    env.TOKENID,
-    "--tokensecret",
-    env.TOKENSECRET,
-    "--url",
-    env.URL,
-  ];
-  const command = commandList.join(" ");
-  shell.exec(command);
-};
-
-export const handler = () => {
-  console.log("Inside lambda handler");
-  saveToken();
-  shell.exec("suitecloud file:list --folder /SuiteScripts");
+export default async function handler() {
+  console.log("Running ...");
+  await prepareFolder();
+  runSdf();
+  shell.exec(`git diff`);
   return {};
-};
+}
