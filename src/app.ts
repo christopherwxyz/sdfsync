@@ -1,7 +1,7 @@
 import 'module-alias/register'
 import 'source-map-support/register'
 
-import prepareFolder from "@/helpers/git";
+import { prepareFolder, addAllCommitAndShipIt } from "@/helpers/git";
 import runSdf from "@/helpers/sdf";
 import * as shell from "shelljs";
 
@@ -12,5 +12,6 @@ export default async function handler() {
   await prepareFolder();
   runSdf();
   shell.exec(`git diff`);
+  await addAllCommitAndShipIt();
   return {};
 }

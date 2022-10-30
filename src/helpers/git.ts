@@ -27,24 +27,40 @@ const setupSsh = async () => {
 
 const cloneRepo = async () => {
   shell.cd("/tmp");
-  shell.exec("git clone git@github.com-alias:constituentvoice/ns.git");
+  shell.exec(`git clone ${env.GITURL}`);
   shell.cd("/tmp/ns");
-  shell.exec("ls -al");
 };
 
-export default async function prepareFolder() {
-    await setupSsh();
-    await cloneRepo();
-    await changeDir();
+export async function prepareFolder() {
+  await setupSsh();
+  await cloneRepo();
+  await changeDir();
 }
 
+export async function addAllCommitAndShipIt() {
+  // await addNewChanges();
+  // await commitChanges();
+  // await shipIt();
+}
 function changeDir() {
-  console.log('Starting directory: ' + process.cwd());
+  console.log(`Starting directory: ${process.cwd()}`);
   try {
     process.chdir(`/tmp/ns/packages/${env.NSENV}`);
-    console.log('Package directory: ' + process.cwd());
+    console.log(`Package directory: ${process.cwd()}`);
   }
   catch (err) {
     console.log('chdir: ' + err);
   }
 }
+function addNewChanges() {
+  throw new Error("Function not implemented.");
+}
+
+function commitChanges() {
+  throw new Error("Function not implemented.");
+}
+
+function shipIt() {
+  throw new Error("Function not implemented.");
+}
+
