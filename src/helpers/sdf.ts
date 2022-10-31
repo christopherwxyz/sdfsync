@@ -31,13 +31,22 @@ const listObjects = () => {
 };
 
 const listFiles = async () => {
-    cleansedFileOutput = (await runCommand(CLICommand.ListFiles, `--folder /SuiteScripts`)).stdout.replace(`\x1B[2K\x1B[1G`, ``).split('\n');
-
+    cleansedFileOutput = (await runCommand(CLICommand.ListFiles, `--folder /SuiteScripts`))
+    .stdout
+    .replace(`\x1B[2K\x1B[1G`, ``)
+    .split('\n');
+    cleansedFileOutput = cleansedFileOutput.map(file => file.replace(/[() ]/g, '\\$0'));
+    console.log(cleansedFileOutput);
 };
 
 const importFiles = () => {
-    let singleLine = "'" + cleansedFileOutput.join("' '") + "'";
-    runCommand(CLICommand.ImportFiles, `--paths ${singleLine}`);
+    let appendedLine = '';
+    cleansedFileOutput.forEach(file => {
+        appendedLine = appendedLine + `${file} `;
+    });
+    // let singleLine = "'" + cleansedFileOutput.join("' '") + "'";
+    console.log(`Length: ${appendedLine.length}`)
+    runCommand(CLICommand.ImportFiles, `--paths ${appendedLine}`);
 };
 
 const removeFilesAndObjects = () => {
