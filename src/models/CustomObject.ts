@@ -4,6 +4,7 @@ export interface ICustomObject {
   type: string;
   detail: string;
   description: string;
+  weight?: number;
 }
 
 export class CustomObject implements ICustomObject {
