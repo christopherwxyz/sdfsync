@@ -35,18 +35,11 @@ const listFiles = async () => {
     .stdout
     .replace(`\x1B[2K\x1B[1G`, ``)
     .split('\n');
-    cleansedFileOutput = cleansedFileOutput.map(file => file.replace(/[() ]/g, '\\$0'));
-    console.log(cleansedFileOutput);
 };
 
 const importFiles = () => {
-    let appendedLine = '';
-    cleansedFileOutput.forEach(file => {
-        appendedLine = appendedLine + `${file} `;
-    });
-    // let singleLine = "'" + cleansedFileOutput.join("' '") + "'";
-    console.log(`Length: ${appendedLine.length}`)
-    runCommand(CLICommand.ImportFiles, `--paths ${appendedLine}`);
+    let singleLine = "'" + cleansedFileOutput.join("' '") + "'";
+    runCommand(CLICommand.ImportFiles, `--paths ${singleLine}`);
 };
 
 const removeFilesAndObjects = () => {
@@ -92,13 +85,14 @@ const importObjects = () => {
     });
 };
 
-export default function runSdf() {
+export default async function runSdf() {
     // setupProject();
     saveNetSuiteToken();
     removeFilesAndObjects();
-    // createObjectFolders();
+    createObjectFolders();
     listFiles();
+    await new Promise(r => setTimeout(r, 10000));
     importFiles();
     // listObjects();
-    // importObjects();
+    importObjects();
 }

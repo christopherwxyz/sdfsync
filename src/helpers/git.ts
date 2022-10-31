@@ -67,6 +67,7 @@ function shipIt() {
 }
 
 function selectBranch() {
-  shell.exec(`git checkout -b "${env.NSENV}/${(new Date()).toISOString()}"`);
+  shell.exec(`git checkout -b "${env.NSENV}/${(new Date()).toISOString().split("T")[0]}"`);
+  shell.exec(`git push --set-upstream origin ${env.NSENV}/${(new Date()).toISOString().split("T")[0]}`)
 }
 

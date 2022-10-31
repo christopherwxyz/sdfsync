@@ -10,8 +10,9 @@ handler();
 export default async function handler() {
   console.log("Running ...");
   await prepareRepo();
-  runSdf();
+  await runSdf();
   // shell.exec(`git diff`);
-  // await addAllCommitAndShipIt();
+  await addAllCommitAndShipIt();
+  console.log("Completed.");
   return {};
 }
