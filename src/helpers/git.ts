@@ -15,7 +15,7 @@ Host github.com-alias
 `;
 
 const setupSsh = async () => {
-  const privateKey = formatDeployKey(env.DEPLOYKEY as string);
+  const privateKey = formatDeployKey(env.DEPLOYKEY);
   const hostConfig = getHostConfig();
   shell.cd("/root");
   shell.mkdir("/root/.ssh");
