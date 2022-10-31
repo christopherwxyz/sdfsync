@@ -1,17 +1,13 @@
 import { CustomObject, CustomObjects } from "@/models/CustomObject";
 import env from "@/helpers/env";
 import * as fs from 'fs';
-import * as rimraf from 'rimraf';
-import * as shell from "shelljs";
+import * as _ from 'lodash';
+import * as Bluebird from 'bluebird';
 import { CLICommand } from "@/helpers/cli-command";
 import { runCommand } from "@/helpers/cmd";
 
 // shell.config.silent = true; // Used for suppressing shell output.
 let cleansedFileOutput = [];
-
-const setupProject = () => {
-    throw new Error("Function not implemented.");
-};
 
 const saveNetSuiteToken = () => {
     runCommand(
@@ -24,17 +20,25 @@ const saveNetSuiteToken = () => {
     );
 };
 
-const listObjects = () => {
-    CustomObjects.forEach((custObject: CustomObject) => {
-        runCommand(CLICommand.ListObjects, `--type ${custObject.type}`);
+const listObjects = async () => {
+    CustomObjects.forEach(async (custObject: CustomObject) => {
+        const objectOutput = (await runCommand(CLICommand.ListObjects, `--type ${custObject.type}`))
+            .stdout
+            .replace(`\x1B[2K\x1B[1G`, ``)
+            .split('\n')
+            .filter(entry => entry.startsWith(custObject.type))
+            .map(x => x.split(":")[1]);
+
+        custObject.objects = objectOutput;
+        console.log(`${custObject.type}: ${custObject.objects.length > 0 ? custObject.objects.length : 0}`);
     });
 };
 
 const listFiles = async () => {
     cleansedFileOutput = (await runCommand(CLICommand.ListFiles, `--folder /SuiteScripts`))
-    .stdout
-    .replace(`\x1B[2K\x1B[1G`, ``)
-    .split('\n');
+        .stdout
+        .replace(`\x1B[2K\x1B[1G`, ``)
+        .split('\n');
 };
 
 const importFiles = () => {
@@ -61,7 +65,7 @@ const createObjectFolders = () => {
 }
 
 
-const importObjects = () => {
+const importObjects = async () => {
     // Ephermeral data customizations should not be supported at this time.
     const ephermeralCustomizations = [
         'savedsearch',
@@ -73,26 +77,29 @@ const importObjects = () => {
         'workbook'
     ];
 
-    CustomObjects.forEach((custObject: CustomObject) => {
+    CustomObjects.forEach(async (custObject: CustomObject) => {
         if (ephermeralCustomizations.includes(custObject.type)) return;
+        if (custObject.objects[0] === undefined) return;
 
-        runCommand(CLICommand.ImportObjects,
-            `--scriptid "ALL" ` +
-            `--type ${custObject.type} ` +
-            `--destinationfolder ${custObject.destination} ` +
-            `--excludefiles`
+        const objectCommands = _.map(CustomObjects, custObject => runCommand(CLICommand.ImportObjects,
+                `--scriptid ALL ` +
+                `--type ${custObject.type} ` +
+                `--destinationfolder ${custObject.destination} ` +
+                `--excludefiles`
+            )
         );
-    });
+
+        await Bluebird.map([objectCommands], (func) => func(), { concurrency: 5 });
+    })
 };
 
 export default async function runSdf() {
-    // setupProject();
     saveNetSuiteToken();
     removeFilesAndObjects();
     createObjectFolders();
     listFiles();
     await new Promise(r => setTimeout(r, 10000));
     importFiles();
-    // listObjects();
-    importObjects();
+    await listObjects();
+    await importObjects();
 }
