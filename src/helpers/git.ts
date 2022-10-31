@@ -23,6 +23,7 @@ const setupSsh = async () => {
   await fs.writeFile("/root/.ssh/config", hostConfig);
   shell.chmod(600, "/root/.ssh/ed25519");
   shell.exec("ssh -o StrictHostKeyChecking=no git@github.com-alias");
+  shell.exec(`git config --global user.email "ssync@ssync.com" && git config --global user.name "ssync"`)
 };
 
 const cloneRepo = async () => {
@@ -31,16 +32,17 @@ const cloneRepo = async () => {
   shell.cd("/tmp/ns");
 };
 
-export async function prepareFolder() {
+export async function prepareRepo() {
   await setupSsh();
   await cloneRepo();
+  await selectBranch();
   await changeDir();
 }
 
 export async function addAllCommitAndShipIt() {
-  // await addNewChanges();
-  // await commitChanges();
-  // await shipIt();
+  await addNewChanges();
+  await commitChanges();
+  await shipIt();
 }
 function changeDir() {
   console.log(`Starting directory: ${process.cwd()}`);
@@ -53,14 +55,18 @@ function changeDir() {
   }
 }
 function addNewChanges() {
-  throw new Error("Function not implemented.");
+  shell.exec("git add -A");
 }
 
 function commitChanges() {
-  throw new Error("Function not implemented.");
+  shell.exec(`git commit -m "${env.NSENV} - ${(new Date()).toISOString()}"`);
 }
 
 function shipIt() {
-  throw new Error("Function not implemented.");
+  shell.exec(`git push --force`);
+}
+
+function selectBranch() {
+  shell.exec(`git checkout -b "${env.NSENV}/${(new Date()).toISOString()}"`);
 }
 

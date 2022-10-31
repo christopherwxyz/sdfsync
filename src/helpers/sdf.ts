@@ -1,5 +1,7 @@
 import { CustomObject, CustomObjects } from "@/models/CustomObject";
-import { env } from "process";
+import env from "@/helpers/env";
+import * as fs from 'fs';
+import * as rimraf from 'rimraf';
 import * as shell from "shelljs";
 import { CLICommand } from "@/helpers/cli-command";
 import { runCommand } from "@/helpers/cmd";
@@ -13,11 +15,11 @@ const setupProject = () => {
 
 const saveNetSuiteToken = () => {
     runCommand(
-        CLICommand.SaveToken, 
+        CLICommand.SaveToken,
         `--account "${env.ACCOUNT}" ` +
         `--authid "${env.AUTHID}" ` +
         `--tokenid "${env.TOKENID}" ` +
-        `--tokensecret "${env.TOKENSECRET}" ` + 
+        `--tokensecret "${env.TOKENSECRET}" ` +
         `--url "${env.URL}"`
     );
 };
@@ -38,15 +40,56 @@ const importFiles = () => {
     runCommand(CLICommand.ImportFiles, `--paths ${singleLine}`);
 };
 
+const removeFilesAndObjects = () => {
+
+    console.log(`Emptying: /FileCabinet/SuiteScripts/`);
+    fs.rmSync(`/tmp/ns/packages/${env.NSENV}/src/FileCabinet/SuiteScripts`, { recursive: true, force: true });
+
+    console.log('Emptying: /Objects/');
+    fs.rmSync(`/tmp/ns/packages/${env.NSENV}/src/Objects/`, { recursive: true, force: true });
+}
+
+const createObjectFolders = () => {
+    CustomObjects.forEach((custObject: CustomObject) => {
+        if (!fs.existsSync(`/tmp/ns/packages/${env.NSENV}/src/${custObject.destination}`)) {
+            console.log(`Creating folder for: /tmp/ns/packages/${env.NSENV}/src${custObject.destination}`);
+            fs.mkdirSync(`/tmp/ns/packages/${env.NSENV}/src${custObject.destination}`, { recursive: true });
+        }
+    });
+}
+
+
 const importObjects = () => {
-    throw new Error("Function not implemented.");
+    // Ephermeral data customizations should not be supported at this time.
+    const ephermeralCustomizations = [
+        'savedsearch',
+        'csvimport',
+        'dataset',
+        'financiallayout',
+        'reportdefinition',
+        'translationcollection',
+        'workbook'
+    ];
+
+    CustomObjects.forEach((custObject: CustomObject) => {
+        if (ephermeralCustomizations.includes(custObject.type)) return;
+
+        runCommand(CLICommand.ImportObjects,
+            `--scriptid "ALL" ` +
+            `--type ${custObject.type} ` +
+            `--destinationfolder ${custObject.destination} ` +
+            `--excludefiles`
+        );
+    });
 };
 
 export default function runSdf() {
     // setupProject();
     saveNetSuiteToken();
+    removeFilesAndObjects();
+    // createObjectFolders();
     listFiles();
-    // importFiles();
+    importFiles();
     // listObjects();
     // importObjects();
 }
