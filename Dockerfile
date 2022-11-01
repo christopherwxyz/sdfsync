@@ -15,6 +15,7 @@ COPY . .
 
 RUN npm ci && npm run build
 
+COPY . .
 
 EXPOSE 8080
-ENTRYPOINT ["node", "./dist/app.js"]
+ENTRYPOINT ["npm", "start"]

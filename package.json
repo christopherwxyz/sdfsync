@@ -2,12 +2,12 @@
   "name": "ssync",
   "version": "1.0.0",
   "description": "Sync a NetSuite environment with a local repository.",
-  "main": "dist/app.js",
+  "main": "./dist/app.js",
   "scripts": {
     "test": "test",
     "lint": "eslint --max-warnings 0 --ext ts,tsx,json src",
     "build": "tsc --skipLibCheck",
-    "start": "tsc && node dist/app.js"
+    "start": "node dist/app.js"
   },
   "repository": {
     "type": "git",
