@@ -1,16 +1,6 @@
 # action.yml
 name: 'ssync'
 description: 'Sync a NetSuite environment with a local repository.'
-inputs:
-  environment:  # id of input
-    description: 'Environment to be synchronized'
-    required: true
-    default: 'PRODUCTION'
-outputs:
-  time: # id of output
-    description: 'The time we synchronized'
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  args:
-    - ${{ inputs.environment }}

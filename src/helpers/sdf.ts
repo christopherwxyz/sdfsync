@@ -81,16 +81,24 @@ const importObjects = async () => {
         if (ephermeralCustomizations.includes(custObject.type)) return;
         if (custObject.objects[0] === undefined) return;
 
-        const objectCommands = _.map(CustomObjects, custObject => runCommand(CLICommand.ImportObjects,
-                `--scriptid ALL ` +
-                `--type ${custObject.type} ` +
-                `--destinationfolder ${custObject.destination} ` +
-                `--excludefiles`
-            )
+        const collectOutput = await runCommand(CLICommand.ImportObjects,
+            `--scriptid ALL ` +
+            `--type ${custObject.type} ` +
+            `--destinationfolder ${custObject.destination} ` +
+            `--excludefiles`
         );
 
-        await Bluebird.map([objectCommands], (func) => func(), { concurrency: 5 });
-    })
+        if (collectOutput.includes(`The following objects failed with reason "Import custom objects failed.":`)) {
+            custObject.error = true;
+            console.error(`Failed to import: ${custObject.type}`);
+        };
+    });
+
+    CustomObjects.forEach(custObject => {
+        if (custObject.error) {
+            console.log(`Failed to import: ${custObject.type}`);
+        }
+    });
 };
 
 export default async function runSdf() {
