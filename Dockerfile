@@ -1,6 +1,6 @@
 FROM node:16.18.0-alpine3.16
 
-WORKDIR /usr/src/app
+WORKDIR /github/workspace
 
 RUN apk --no-cache update && apk --no-cache add sudo
 RUN apk add --no-cache bash
