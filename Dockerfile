@@ -15,9 +15,6 @@ COPY . .
 
 RUN npm ci && npm run build
 
-# Copy node modules and build directory
-COPY --from=base ./node_modules ./node_modules
-COPY --from=base /dist /dist
 
 EXPOSE 8080
 ENTRYPOINT ["node", "./dist/app.js"]
