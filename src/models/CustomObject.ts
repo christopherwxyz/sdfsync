@@ -13,6 +13,8 @@ export class CustomObject implements ICustomObject {
   _destination: string[];
   detail: string;
   description: string;
+  objects: string[];
+  error: boolean;
 
   constructor(customObject: ICustomObject) {
     return Object.assign(this, customObject);

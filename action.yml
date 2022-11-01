@@ -1,11 +1,6 @@
 # action.yml
 name: 'suitesync'
 description: 'Sync a NetSuite environment with a local repository.'
-outputs:
-  time: # id of output
-    description: 'The time we synchronized'
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  args:
-    - ${{ inputs.environment }}

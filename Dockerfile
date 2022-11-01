@@ -1,5 +1,7 @@
 FROM node:16.18.0-alpine3.16
 
+WORKDIR /usr/src/app
+
 RUN apk --no-cache update && apk --no-cache add sudo
 RUN apk add --no-cache bash
 RUN apk add --no-cache git
@@ -13,4 +15,5 @@ COPY . .
 
 RUN npm ci && npm run build
 
-CMD ["node", "dist/app.js"]
+EXPOSE 8080
+ENTRYPOINT ["node", "./dist/app.js"]
