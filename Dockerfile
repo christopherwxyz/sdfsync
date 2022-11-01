@@ -1,5 +1,7 @@
 FROM node:16.18.0-alpine3.16
 
+WORKDIR /usr/src/app
+
 RUN apk --no-cache update && apk --no-cache add sudo
 RUN apk add --no-cache bash
 RUN apk add --no-cache git
