@@ -13,11 +13,7 @@ RUN npm install -g --acceptsuitecloudsdklicense @oracle/suitecloud-cli@
 
 ADD --chown=root:root . /home/root
 
-COPY . .
-
 RUN cd /home/root && npm ci && npm run build
-
-COPY . /app
 
 EXPOSE 8080
 CMD ["node", "/home/root/dist/app.js"]
