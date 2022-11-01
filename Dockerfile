@@ -11,11 +11,13 @@ RUN apk add --no-cache openjdk17-jdk
 USER root
 RUN npm install -g --acceptsuitecloudsdklicense @oracle/suitecloud-cli@
 
+ADD --chown=root:root . /home/root
+
 COPY . .
 
-RUN npm ci && npm run build
+RUN cd /home/root && npm ci && npm run build
 
 COPY . /app
 
 EXPOSE 8080
-ENTRYPOINT ["node", "dist/app.js"]
+CMD ["node", "/home/root/dist/app.js"]
