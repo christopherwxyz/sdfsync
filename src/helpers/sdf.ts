@@ -2,11 +2,9 @@ import { CustomObject, CustomObjects } from "@/models/CustomObject";
 import env from "@/helpers/env";
 import * as fs from 'fs';
 import * as _ from 'lodash';
-import * as Bluebird from 'bluebird';
 import { CLICommand } from "@/helpers/cli-command";
 import { runCommand } from "@/helpers/cmd";
 
-// shell.config.silent = true; // Used for suppressing shell output.
 let cleansedFileOutput = [];
 
 const saveNetSuiteToken = () => {
@@ -67,15 +65,7 @@ const createObjectFolders = () => {
 
 const importObjects = async () => {
     // Ephermeral data customizations should not be supported at this time.
-    const ephermeralCustomizations = [
-        'savedsearch',
-        'csvimport',
-        'dataset',
-        'financiallayout',
-        'reportdefinition',
-        'translationcollection',
-        'workbook'
-    ];
+    const ephermeralCustomizations = env.EXCLUDED.split(',');
 
     CustomObjects.forEach(async (custObject: CustomObject) => {
         if (ephermeralCustomizations.includes(custObject.type)) return;

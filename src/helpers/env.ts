@@ -1,5 +1,5 @@
 import * as dotenv from 'dotenv';
-import { cleanEnv, str } from 'envalid';
+import { cleanEnv, str, } from 'envalid';
 import { cwd } from 'process';
 import { resolve } from 'path';
 
@@ -14,5 +14,6 @@ export default cleanEnv(process.env, {
   URL: str(),
   NSENV: str(),
   DEPLOYKEY: str(),
-  GITURL: str()
+  GITURL: str(),
+  EXCLUDED: str(),
 });
