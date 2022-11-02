@@ -27,6 +27,7 @@ const setupSsh = async () => {
 };
 
 const cloneRepo = async () => {
+  shell.exec('git config --global push.default current');
   shell.cd("/tmp");
   shell.exec(`git clone ${env.GITURL}`);
   shell.cd("/tmp/ns");
@@ -35,14 +36,14 @@ const cloneRepo = async () => {
 export async function prepareRepo() {
   await setupSsh();
   await cloneRepo();
-  await selectBranch();
-  await changeDir();
+  selectBranch();
+  changeDir();
 }
 
 export async function addAllCommitAndShipIt() {
-  await addNewChanges();
-  await commitChanges();
-  await shipIt();
+  addNewChanges();
+  commitChanges();
+  shipIt();
 }
 function changeDir() {
   console.log(`Starting directory: ${process.cwd()}`);
@@ -67,7 +68,7 @@ function shipIt() {
 }
 
 function selectBranch() {
-  shell.exec(`git checkout -b "${env.NSENV}/${(new Date()).toISOString().split("T")[0]}"`);
+  shell.exec(`git checkout -b ${env.NSENV}/${(new Date()).toISOString().split("T")[0]}`);
   shell.exec(`git push --set-upstream origin ${env.NSENV}/${(new Date()).toISOString().split("T")[0]}`)
 }
 
