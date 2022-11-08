@@ -16,4 +16,5 @@ export default cleanEnv(process.env, {
   DEPLOYKEY: str(),
   GITURL: str(),
   EXCLUDED: str(),
+  WORKSPACE: str(),
 });

@@ -28,9 +28,9 @@ const setupSsh = async () => {
 
 const cloneRepo = async () => {
   shell.exec('git config --global push.default current');
-  shell.cd("/tmp");
+  shell.cd(`${env.WORKSPACE}`);
   shell.exec(`git clone ${env.GITURL}`);
-  shell.cd("/tmp/ns");
+  shell.cd(`${env.WORKSPACE}/ns`);
 };
 
 export async function prepareRepo() {
@@ -48,7 +48,7 @@ export async function addAllCommitAndShipIt() {
 function changeDir() {
   console.log(`Starting directory: ${process.cwd()}`);
   try {
-    process.chdir(`/tmp/ns/packages/${env.NSENV}`);
+    process.chdir(`${env.WORKSPACE}/ns/packages/${env.NSENV}`);
     console.log(`Package directory: ${process.cwd()}`);
   }
   catch (err) {

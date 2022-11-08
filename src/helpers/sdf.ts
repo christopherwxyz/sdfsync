@@ -47,17 +47,17 @@ const importFiles = () => {
 const removeFilesAndObjects = () => {
 
     console.log(`Emptying: /FileCabinet/SuiteScripts/`);
-    fs.rmSync(`/tmp/ns/packages/${env.NSENV}/src/FileCabinet/SuiteScripts`, { recursive: true, force: true });
+    fs.rmSync(`${env.WORKSPACE}/ns/packages/${env.NSENV}/src/FileCabinet/SuiteScripts`, { recursive: true, force: true });
 
     console.log('Emptying: /Objects/');
-    fs.rmSync(`/tmp/ns/packages/${env.NSENV}/src/Objects/`, { recursive: true, force: true });
+    fs.rmSync(`${env.WORKSPACE}/ns/packages/${env.NSENV}/src/Objects/`, { recursive: true, force: true });
 }
 
 const createObjectFolders = () => {
     CustomObjects.forEach((custObject: CustomObject) => {
-        if (!fs.existsSync(`/tmp/ns/packages/${env.NSENV}/src/${custObject.destination}`)) {
-            console.log(`Creating folder for: /tmp/ns/packages/${env.NSENV}/src${custObject.destination}`);
-            fs.mkdirSync(`/tmp/ns/packages/${env.NSENV}/src${custObject.destination}`, { recursive: true });
+        if (!fs.existsSync(`${env.WORKSPACE}/ns/packages/${env.NSENV}/src/${custObject.destination}`)) {
+            console.log(`Creating folder for: ${env.WORKSPACE}/ns/packages/${env.NSENV}/src${custObject.destination}`);
+            fs.mkdirSync(`${env.WORKSPACE}/ns/packages/${env.NSENV}/src${custObject.destination}`, { recursive: true });
         }
     });
 }
