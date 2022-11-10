@@ -1,5 +1,5 @@
-# ssync
-SDF sync (ssync) tool
+# sdfsync
+SDF sync (sdfsync) tool
 
 
 # Build and run
@@ -8,19 +8,19 @@ SDF sync (ssync) tool
 
 Docker:
 
-`docker build -t ssync -f Dockerfile .`
+`docker build -t sdfsync -f Dockerfile .`
 
 Docker with lambda: 
 
-`docker build -t ssync-lambda -f Dockerfile.lambda .`
+`docker build -t sdfsync-lambda -f Dockerfile.lambda .`
 
 ## Run
 
 Docker:
 
-`docker run --env-file .env -p 9000:8080 ssync`
+`docker run --env-file .env -p 9000:8080 sdfsync`
 
 Docker with lambda:
 
-`docker run --env-file .env -p 9000:8080 ssync-lambda`
+`docker run --env-file .env -p 9000:8080 sdfsync-lambda`
 
