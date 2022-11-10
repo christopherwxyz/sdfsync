@@ -7,7 +7,19 @@ import { runCommand } from "@/helpers/cmd";
 
 let cleansedFileOutput = [];
 
+function changeDir() {
+    console.log(`Starting directory: ${process.cwd()}`);
+    try {
+        process.chdir(`${env.WORKSPACE}/packages/${env.NSENV}`);
+        console.log(`Package directory: ${process.cwd()}`);
+    }
+    catch (err) {
+        console.error('chdir: ' + err);
+    }
+}
+
 const saveNetSuiteToken = () => {
+    console.log(`Saving token ...`);
     runCommand(
         CLICommand.SaveToken,
         `--account "${env.ACCOUNT}" ` +
@@ -19,6 +31,7 @@ const saveNetSuiteToken = () => {
 };
 
 const listObjects = async () => {
+    console.log(`Listing objects ...`);
     CustomObjects.forEach(async (custObject: CustomObject) => {
         const objectOutput = (await runCommand(CLICommand.ListObjects, `--type ${custObject.type}`))
             .stdout
@@ -33,6 +46,7 @@ const listObjects = async () => {
 };
 
 const listFiles = async () => {
+    console.log(`Listing files ...`);
     cleansedFileOutput = (await runCommand(CLICommand.ListFiles, `--folder /SuiteScripts`))
         .stdout
         .replace(`\x1B[2K\x1B[1G`, ``)
@@ -46,18 +60,18 @@ const importFiles = () => {
 
 const removeFilesAndObjects = () => {
 
-    console.log(`Emptying: /FileCabinet/SuiteScripts/`);
-    fs.rmSync(`${env.WORKSPACE}/ns/packages/${env.NSENV}/src/FileCabinet/SuiteScripts`, { recursive: true, force: true });
+    console.log(`Emptying: /FileCabinet/SuiteScripts/ ...`);
+    fs.rmSync(`${env.WORKSPACE}/packages/${env.NSENV}/src/FileCabinet/SuiteScripts`, { recursive: true, force: true });
 
-    console.log('Emptying: /Objects/');
-    fs.rmSync(`${env.WORKSPACE}/ns/packages/${env.NSENV}/src/Objects/`, { recursive: true, force: true });
+    console.log(`Emptying: /Objects/ ...`);
+    fs.rmSync(`${env.WORKSPACE}/packages/${env.NSENV}/src/Objects/`, { recursive: true, force: true });
 }
 
 const createObjectFolders = () => {
     CustomObjects.forEach((custObject: CustomObject) => {
-        if (!fs.existsSync(`${env.WORKSPACE}/ns/packages/${env.NSENV}/src/${custObject.destination}`)) {
-            console.log(`Creating folder for: ${env.WORKSPACE}/ns/packages/${env.NSENV}/src${custObject.destination}`);
-            fs.mkdirSync(`${env.WORKSPACE}/ns/packages/${env.NSENV}/src${custObject.destination}`, { recursive: true });
+        if (!fs.existsSync(`${env.WORKSPACE}/packages/${env.NSENV}/src/${custObject.destination}`)) {
+            console.log(`Creating folder for: ${env.WORKSPACE}/packages/${env.NSENV}/src${custObject.destination}`);
+            fs.mkdirSync(`${env.WORKSPACE}/packages/${env.NSENV}/src${custObject.destination}`, { recursive: true });
         }
     });
 }
@@ -92,6 +106,7 @@ const importObjects = async () => {
 };
 
 export default async function runSdf() {
+    changeDir();
     saveNetSuiteToken();
     removeFilesAndObjects();
     createObjectFolders();
