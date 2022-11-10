@@ -34,9 +34,9 @@ const cloneRepo = async () => {
 };
 
 export async function prepareRepo() {
-  await setupSsh();
-  await cloneRepo();
-  selectBranch();
+  // await setupSsh();
+  // await cloneRepo();
+  // selectBranch();
   changeDir();
 }
 

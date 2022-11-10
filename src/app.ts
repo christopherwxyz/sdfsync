@@ -10,9 +10,9 @@ handler();
 export default async function handler() {
   console.log("Running ...");
   shell.exec(`ls -la`);
-  // await prepareRepo();
+  await prepareRepo();
   await runSdf();
-  await addAllCommitAndShipIt();
+  // await addAllCommitAndShipIt();
   console.log("Completed.");
   return {};
 }
