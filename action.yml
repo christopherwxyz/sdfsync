@@ -1,6 +1,10 @@
 # action.yml
-name: 'suitesync'
+name: 'ssync'
+author: 'Christopher Wallace <me@christopherw.xyz>'
 description: 'Sync a NetSuite environment with a local repository.'
+branding:
+  icon: 'download-cloud'
+  color: 'red'
 runs:
   using: 'docker'
   image: 'Dockerfile'
