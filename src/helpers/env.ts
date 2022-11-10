@@ -13,7 +13,6 @@ export default cleanEnv(process.env, {
   TOKENSECRET: str(),
   URL: str(),
   NSENV: str(),
-  DEPLOYKEY: str(),
   GITURL: str(),
   EXCLUDED: str(),
   WORKSPACE: str(),
