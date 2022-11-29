@@ -55,7 +55,7 @@ const listFiles = async () => {
 
 const importFiles = () => {
     let singleLine = "'" + cleansedFileOutput.join("' '") + "'";
-    runCommand(CLICommand.ImportFiles, `--paths ${singleLine}`);
+    runCommand(CLICommand.ImportFiles, `--paths ${singleLine} --excludeproperties`);
 };
 
 const removeFilesAndObjects = () => {
