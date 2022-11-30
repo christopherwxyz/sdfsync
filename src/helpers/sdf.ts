@@ -108,14 +108,14 @@ const importObjects = async () => {
 
 const importObjectsSlowly = async () => {
     // Ephermeral data customizations should not be supported at this time.
-    const ephermeralCustomizations = env.EXCLUDED.split(',');
     const slowlyImportCustomizations = env.SLOW.split(',');
+    console.log(`Customizations to slowly import: ${slowlyImportCustomizations}`);
 
     CustomObjects.forEach(async (custObject: CustomObject) => {
-        if (ephermeralCustomizations.includes(custObject.type)) return;
         if (custObject.objects[0] === undefined) return;
+        console.log(`Attempting to import slowly: ${custObject.type} ...`)
+
         if (slowlyImportCustomizations.includes(custObject.type)) {
-            console.log(`Attempting to import slow ${custObject.type} ...`)
 
             // List all objects
             custObject.objects = (await runCommand(CLICommand.ListObjects, `--type ${custObject.type}`))

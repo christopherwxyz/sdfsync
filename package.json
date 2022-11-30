@@ -1,6 +1,6 @@
 {
   "name": "ssync",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "Sync a NetSuite environment with a local repository.",
   "main": "./dist/app.js",
   "scripts": {
