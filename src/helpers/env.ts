@@ -15,5 +15,6 @@ export default cleanEnv(process.env, {
   NSENV: str(),
   GITURL: str(),
   EXCLUDED: str(),
+  SLOW: str(),
   WORKSPACE: str(),
 });

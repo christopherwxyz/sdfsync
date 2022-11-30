@@ -84,9 +84,50 @@ const importObjects = async () => {
     CustomObjects.forEach(async (custObject: CustomObject) => {
         if (ephermeralCustomizations.includes(custObject.type)) return;
         if (custObject.objects[0] === undefined) return;
+        console.log(`Attempting to import all ${custObject.type} ...`)
 
         const collectOutput = await runCommand(CLICommand.ImportObjects,
             `--scriptid ALL ` +
+            `--type ${custObject.type} ` +
+            `--destinationfolder ${custObject.destination} ` +
+            `--excludefiles`
+        );
+
+        if (collectOutput.includes(`The following objects failed with reason "Import custom objects failed.":`)) {
+            custObject.error = true;
+            console.error(`Failed to import: ${custObject.type}`);
+        };
+    });
+
+    CustomObjects.forEach(custObject => {
+        if (custObject.error) {
+            console.log(`Failed to import: ${custObject.type}`);
+        }
+    });
+};
+
+const importObjectsSlowly = async () => {
+    // Ephermeral data customizations should not be supported at this time.
+    const ephermeralCustomizations = env.EXCLUDED.split(',');
+    const slowlyImportCustomizations = env.SLOW.split(',');
+
+    CustomObjects.forEach(async (custObject: CustomObject) => {
+        if (ephermeralCustomizations.includes(custObject.type)) return;
+        if (custObject.objects[0] === undefined) return;
+        if (!slowlyImportCustomizations.includes(custObject.type)) return;
+        console.log(`Attempting to import slow ${custObject.type} ...`)
+
+        // List all objects
+        custObject.objects = (await runCommand(CLICommand.ListObjects, `--type ${custObject.type}`))
+            .stdout
+            .replace(`\x1B[2K\x1B[1G`, ``)
+            .split('\n')
+            .filter(entry => entry.startsWith(custObject.type))
+            .map(x => x.split(":")[1]);
+
+        // Import all collected objects
+        const collectOutput = await runCommand(CLICommand.ImportObjects,
+            `--scriptid ${custObject.objects.join(" ")} ` +
             `--type ${custObject.type} ` +
             `--destinationfolder ${custObject.destination} ` +
             `--excludefiles`
@@ -115,4 +156,5 @@ export default async function runSdf() {
     importFiles();
     await listObjects();
     await importObjects();
+    await importObjectsSlowly();
 }
