@@ -79,81 +79,85 @@ const createObjectFolders = () => {
 
 const importObjects = async () => {
     // Ephermeral data customizations should not be supported at this time.
-    const ephermeralCustomizations = env.EXCLUDED.split(',');
+    if (env.EXCLUDED !== undefined) {
+        const ephermeralCustomizations = env.EXCLUDED.split(',');
 
-    CustomObjects.forEach(async (custObject: CustomObject) => {
-        if (ephermeralCustomizations.includes(custObject.type)) return;
-        if (custObject.objects[0] === undefined) return;
-        console.log(`Attempting to import all ${custObject.type} ...`)
 
-        const collectOutput = await runCommand(CLICommand.ImportObjects,
-            `--scriptid ALL ` +
-            `--type ${custObject.type} ` +
-            `--destinationfolder ${custObject.destination} ` +
-            `--excludefiles`
-        );
+        CustomObjects.forEach(async (custObject: CustomObject) => {
+            if (ephermeralCustomizations.includes(custObject.type)) return;
+            if (custObject.objects[0] === undefined) return;
+            console.log(`Attempting to import all ${custObject.type} ...`)
 
-        if (collectOutput.includes(`The following objects failed with reason "Import custom objects failed.":`)) {
-            custObject.error = true;
-            console.error(`Failed to import: ${custObject.type}`);
-        };
-    });
+            const collectOutput = await runCommand(CLICommand.ImportObjects,
+                `--scriptid ALL ` +
+                `--type ${custObject.type} ` +
+                `--destinationfolder ${custObject.destination} ` +
+                `--excludefiles`
+            );
 
-    CustomObjects.forEach(custObject => {
-        if (custObject.error) {
-            console.log(`Failed to import: ${custObject.type}`);
-        }
-    });
-};
-
-const importObjectsSlowly = async () => {
-    // Ephermeral data customizations should not be supported at this time.
-    const slowlyImportCustomizations = env.SLOW.split(',');
-    console.log(`Customizations to slowly import: ${slowlyImportCustomizations}`);
-
-    CustomObjects.forEach(async (custObject: CustomObject) => {
-        if (custObject.objects[0] === undefined) return;
-        console.log(`Attempting to import slowly: ${custObject.type} ...`)
-
-        if (slowlyImportCustomizations.includes(custObject.type)) {
-
-            // List all objects
-            custObject.objects = (await runCommand(CLICommand.ListObjects, `--type ${custObject.type}`))
-                .stdout
-                .replace(`\x1B[2K\x1B[1G`, ``)
-                .split('\n')
-                .filter(entry => entry.startsWith(custObject.type))
-                .map(x => x.split(":")[1]);
-
-            const collectOutput = custObject.objects.map(async (singleCustObject: string) => {
-                console.log(`Single import of: ${singleCustObject} ...`);
-                return (await runCommand(CLICommand.ImportObjects,
-                    `--scriptid ${singleCustObject} ` +
-                    `--type ${custObject.type} ` +
-                    `--destinationfolder ${custObject.destination} ` +
-                    `--excludefiles`));
-            });
-
-            // Import all collected objects
-            // const collectOutput = await runCommand(CLICommand.ImportObjects,
-            //     `--scriptid ${custObject.objects.join(" ")} ` +
-            //     `--type ${custObject.type} ` +
-            //     `--destinationfolder ${custObject.destination} ` +
-            //     `--excludefiles`
-            // );
-
-            if (collectOutput.join(" ").includes(`The following objects failed with reason "Import custom objects failed.":`)) {
+            if (collectOutput.includes(`The following objects failed with reason "Import custom objects failed.":`)) {
                 custObject.error = true;
                 console.error(`Failed to import: ${custObject.type}`);
             };
-        }
-    });
+        });
 
-    CustomObjects.forEach(custObject => {
-        if (custObject.error) {
-            console.log(`Failed to import: ${custObject.type}`);
-        }
-    });
+        CustomObjects.forEach(custObject => {
+            if (custObject.error) {
+                console.log(`Failed to import: ${custObject.type}`);
+            }
+        });
+    }
+};
+
+const importObjectsSlowly = async () => {
+    if (env.SLOW !== undefined) {
+        const slowlyImportCustomizations = env.SLOW.split(',');
+        console.log(`Customizations to slowly import: ${slowlyImportCustomizations}`);
+
+        CustomObjects.forEach(async (custObject: CustomObject) => {
+            if (custObject.objects[0] === undefined) return;
+            console.log(`Attempting to import slowly: ${custObject.type} ...`)
+
+            if (slowlyImportCustomizations.includes(custObject.type)) {
+
+                // List all objects
+                custObject.objects = (await runCommand(CLICommand.ListObjects, `--type ${custObject.type}`))
+                    .stdout
+                    .replace(`\x1B[2K\x1B[1G`, ``)
+                    .split('\n')
+                    .filter(entry => entry.startsWith(custObject.type))
+                    .map(x => x.split(":")[1]);
+
+                const collectOutput = custObject.objects.map(async (singleCustObject: string) => {
+                    console.log(`Single import of: ${singleCustObject} ...`);
+                    return (await runCommand(CLICommand.ImportObjects,
+                        `--scriptid ${singleCustObject} ` +
+                        `--type ${custObject.type} ` +
+                        `--destinationfolder ${custObject.destination} ` +
+                        `--excludefiles`));
+                });
+
+                // Import all collected objects
+                // const collectOutput = await runCommand(CLICommand.ImportObjects,
+                //     `--scriptid ${custObject.objects.join(" ")} ` +
+                //     `--type ${custObject.type} ` +
+                //     `--destinationfolder ${custObject.destination} ` +
+                //     `--excludefiles`
+                // );
+
+                if (collectOutput.join(" ").includes(`The following objects failed with reason "Import custom objects failed.":`)) {
+                    custObject.error = true;
+                    console.error(`Failed to import: ${custObject.type}`);
+                };
+            }
+        });
+
+        CustomObjects.forEach(custObject => {
+            if (custObject.error) {
+                console.log(`Failed to import: ${custObject.type}`);
+            }
+        });
+    }
 };
 
 export default async function runSdf() {
