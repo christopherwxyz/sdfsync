@@ -1,6 +1,6 @@
 {
-  "name": "ssync",
-  "version": "0.0.22",
+  "name": "sdfsync",
+  "version": "0.0.23",
   "description": "Sync a NetSuite environment with a local repository.",
   "main": "./dist/app.js",
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/christopherwxyz/ssync.git"
+    "url": "git+https://github.com/christopherwxyz/sdfsync.git"
   },
   "keywords": [
     "netsuite",
@@ -20,9 +20,9 @@
   "author": "christopherwxyz",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/christopherwxyz/ssync/issues"
+    "url": "https://github.com/christopherwxyz/sdfsync/issues"
   },
-  "homepage": "https://github.com/christopherwxyz/ssync#readme",
+  "homepage": "https://github.com/christopherwxyz/sdfsync#readme",
   "devDependencies": {
     "@types/node": "^18.11.6",
     "@types/shelljs": "^0.8.11",
