@@ -125,15 +125,24 @@ const importObjectsSlowly = async () => {
                 .filter(entry => entry.startsWith(custObject.type))
                 .map(x => x.split(":")[1]);
 
-            // Import all collected objects
-            const collectOutput = await runCommand(CLICommand.ImportObjects,
-                `--scriptid ${custObject.objects.join(" ")} ` +
-                `--type ${custObject.type} ` +
-                `--destinationfolder ${custObject.destination} ` +
-                `--excludefiles`
-            );
+            const collectOutput = custObject.objects.map(async (singleCustObject: string) => {
+                console.log(`Single import of: ${singleCustObject} ...`);
+                return (await runCommand(CLICommand.ImportObjects,
+                    `--scriptid ${singleCustObject} ` +
+                    `--type ${custObject.type} ` +
+                    `--destinationfolder ${custObject.destination} ` +
+                    `--excludefiles`));
+            });
 
-            if (collectOutput.includes(`The following objects failed with reason "Import custom objects failed.":`)) {
+            // Import all collected objects
+            // const collectOutput = await runCommand(CLICommand.ImportObjects,
+            //     `--scriptid ${custObject.objects.join(" ")} ` +
+            //     `--type ${custObject.type} ` +
+            //     `--destinationfolder ${custObject.destination} ` +
+            //     `--excludefiles`
+            // );
+
+            if (collectOutput.join(" ").includes(`The following objects failed with reason "Import custom objects failed.":`)) {
                 custObject.error = true;
                 console.error(`Failed to import: ${custObject.type}`);
             };
