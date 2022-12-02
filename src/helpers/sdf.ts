@@ -10,7 +10,7 @@ let cleansedFileOutput = [];
 function changeDir() {
     console.log(`Starting directory: ${process.cwd()}`);
     try {
-        process.chdir(`${env.WORKSPACE}/packages/${env.NSENV}`);
+        process.chdir(`${env.WORKSPACE}/${env.NSENV}`);
         console.log(`Package directory: ${process.cwd()}`);
     }
     catch (err) {
@@ -61,17 +61,17 @@ const importFiles = () => {
 const removeFilesAndObjects = () => {
 
     console.log(`Emptying: /FileCabinet/SuiteScripts/ ...`);
-    fs.rmSync(`${env.WORKSPACE}/packages/${env.NSENV}/src/FileCabinet/SuiteScripts`, { recursive: true, force: true });
+    fs.rmSync(`${env.WORKSPACE}/${env.NSENV}/src/FileCabinet/SuiteScripts`, { recursive: true, force: true });
 
     console.log(`Emptying: /Objects/ ...`);
-    fs.rmSync(`${env.WORKSPACE}/packages/${env.NSENV}/src/Objects/`, { recursive: true, force: true });
+    fs.rmSync(`${env.WORKSPACE}/${env.NSENV}/src/Objects/`, { recursive: true, force: true });
 }
 
 const createObjectFolders = () => {
     CustomObjects.forEach((custObject: CustomObject) => {
-        if (!fs.existsSync(`${env.WORKSPACE}/packages/${env.NSENV}/src/${custObject.destination}`)) {
-            console.log(`Creating folder for: ${env.WORKSPACE}/packages/${env.NSENV}/src${custObject.destination}`);
-            fs.mkdirSync(`${env.WORKSPACE}/packages/${env.NSENV}/src${custObject.destination}`, { recursive: true });
+        if (!fs.existsSync(`${env.WORKSPACE}/${env.NSENV}/src/${custObject.destination}`)) {
+            console.log(`Creating folder for: ${env.WORKSPACE}/${env.NSENV}/src${custObject.destination}`);
+            fs.mkdirSync(`${env.WORKSPACE}/${env.NSENV}/src${custObject.destination}`, { recursive: true });
         }
     });
 }
