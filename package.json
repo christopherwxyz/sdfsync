@@ -1,6 +1,6 @@
 {
   "name": "sdfsync",
-  "version": "0.0.25",
+  "version": "0.0.27",
   "description": "Sync a NetSuite environment with a local repository.",
   "main": "./dist/app.js",
   "scripts": {
