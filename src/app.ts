@@ -8,11 +8,19 @@ import * as shell from "shelljs";
 
 void handler();
 
+/**
+ * Handles the main logic for running different actions based on the env.ACTION value.
+ * @async
+ * @function handler
+ * @returns {Promise} - An empty object.
+ */
 export default async function handler(): Promise<{}> {
   const timer = new Timer();
   timer.start();
 
   shell.exec(`ls -la`);
+
+  // Execute different actions based on the env.ACTION value
   switch (env.ACTION) {
     case "FETCH":
       await runFetch();

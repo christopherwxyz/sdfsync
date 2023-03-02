@@ -6,12 +6,11 @@ import { runCommand } from "@/helpers/cmd";
 
 let cleansedFileOutput: string[] = [];
 
-function changeDir(): void {
+function changeDir(): { success: boolean } {
   console.log(`Starting directory: ${process.cwd()}`);
-  try {
-    process.chdir(`${env.WORKSPACE}/${env.NSENV}`);
-    console.log(`Package directory: ${process.cwd()}`);
-  } catch (err) {}
+  process.chdir(`${env.WORKSPACE}/${env.NSENV}`);
+  console.log(`Package directory: ${process.cwd()}`);
+  return { success: true };
 }
 
 const saveNetSuiteToken = async (): Promise<void> => {
