@@ -1,12 +1,13 @@
 {
   "name": "sdfsync",
-  "version": "0.0.24",
+  "version": "0.0.25",
   "description": "Sync a NetSuite environment with a local repository.",
   "main": "./dist/app.js",
   "scripts": {
     "test": "test",
     "lint": "eslint --max-warnings 0 --ext ts,tsx,json src",
     "build": "tsc --skipLibCheck",
+    "format": "prettier --write \"src/**/*.ts\"",
     "start": "node dist/app.js"
   },
   "repository": {
@@ -46,7 +47,8 @@
     "envalid": "^7.3.1",
     "lodash": "^4.17.21",
     "rimraf": "^3.0.2",
-    "shelljs": "^0.8.5"
+    "shelljs": "^0.8.5",
+    "timer-node": "^5.0.7"
   },
   "_moduleAliases": {
     "@": "dist"

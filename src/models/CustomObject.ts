@@ -20,7 +20,7 @@ export class CustomObject implements ICustomObject {
     return Object.assign(this, customObject);
   }
 
-  get destination() {
+  get destination(): string {
     return `/Objects/${this._destination.join("/")}`;
   }
 }

@@ -15,8 +15,9 @@
         "rootDir": "src",
         "baseUrl": "src",
         "paths": {
-            "@/*": ["*"]
+            "@/*": ["*"],
         },
+        "strictNullChecks": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
     },

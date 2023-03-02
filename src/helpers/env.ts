@@ -1,11 +1,10 @@
-import * as dotenv from 'dotenv';
-import { cleanEnv, str, } from 'envalid';
-import { cwd } from 'process';
-import { resolve } from 'path';
+import * as dotenv from "dotenv";
+import { cleanEnv, str } from "envalid";
+import { cwd } from "process";
+import { resolve } from "path";
 
-dotenv.config({ path: resolve(cwd(), '.env') })
+dotenv.config({ path: resolve(cwd(), ".env") });
 
-// eslint-disable-next-line node/no-process-env
 export default cleanEnv(process.env, {
   ACCOUNT: str(),
   AUTHID: str(),
@@ -17,4 +16,5 @@ export default cleanEnv(process.env, {
   EXCLUDED: str(),
   SLOW: str(),
   WORKSPACE: str(),
+  ACTION: str(),
 });
