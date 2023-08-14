@@ -24,7 +24,13 @@ const saveNetSuiteToken = async (): Promise<void> => {
       `--url "${env.URL}"`
   );
 
-  if (collectedOutput.includes(`Invalid login attempt.`)) {
+  if (
+    collectedOutput.includes(`Invalid login attempt.`) ||
+    collectedOutput.includes(`*** ERROR ***`) ||
+    collectedOutput.includes(
+      `Something went wrong when trying to save credentials. Contact support.`
+    )
+  ) {
     throw new Error(`Failed to save token.`);
   }
 };
