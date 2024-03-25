@@ -7,7 +7,7 @@ RUN apk add --no-cache openssh
 RUN apk add --no-cache openjdk17-jdk
 
 USER root
-RUN npm install -g --acceptsuitecloudsdklicense @oracle/suitecloud-cli@1.7.3
+RUN npm install -g --acceptsuitecloudsdklicense @oracle/suitecloud-cli@
 
 ADD --chown=root:root . /home/root
 
